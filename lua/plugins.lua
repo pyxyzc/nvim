@@ -62,8 +62,15 @@ require("lazy").setup({
 	-- terminal
 	"voldikss/vim-floaterm",
 	-- format
-	{ "nvimtools/none-ls.nvim", dependencies = "nvim-lua/plenary.nvim" },
-	-- 补全
+	{
+  		"nvimtools/none-ls.nvim",
+  		version = false,
+  		dependencies = { "nvim-lua/plenary.nvim" },
+  		config = function()
+    			require("null-ls").setup({
+    			})
+  		end,
+	},
 	{
 		"saghen/blink.cmp",
 		dependencies = { "saghen/blink.compat", "exafunction/codeium.nvim" },
@@ -90,13 +97,5 @@ require("lazy").setup({
 	},
 	-- auto save
 	"Pocco81/auto-save.nvim",
-	-- markdown
-	{
-		"iamcco/markdown-preview.nvim",
-		cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-		ft = { "markdown" },
-		build = function()
-			vim.fn["mkdp#util#install"]()
-		end,
-	},
+	-- TODO: markdown
 })
