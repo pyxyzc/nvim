@@ -19,6 +19,23 @@ else
 fi
 
 ARCH="$(uname -m)"
+
+if [[ -f /etc/os-release ]]; then
+    . /etc/os-release
+    OS=$ID
+else
+    echo "Cannot detect OS"
+    exit 1
+fi
+
+case $OS in
+    centos|rhel|rocky|almalinux)
+        ;;
+    ubuntu|debian)
+        ;;
+    *) echo "Unsupported Operating System: $OS" >&2; exit 1 ;;
+esac
+
 URL=""
 DIR=""
 
@@ -62,6 +79,7 @@ echo "=================================================="
 if ! command -v nvm >/dev/null 2>&1; then
   echo ">>> npm not found ..."
   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash -s -- --no-use
+  
   export NVM_DIR="$HOME/.nvm"
   [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 fi
@@ -81,3 +99,44 @@ nvm use --lts
 echo ">>> Installation complete – versions:"
 node --version
 npm  --version
+
+echo "=================================================="
+
+case $OS in
+    centos|rhel|rocky|almalinux)
+        if command -v dnf >/dev/null 2>&1; then
+            $SUDO dnf install -y python3-pip
+        else
+            $SUDO yum install -y python3-pip
+        fi
+        ;;
+    ubuntu|debian)
+        $SUDO apt-get update
+        $SUDO apt-get install -y python3-pip
+        ;;
+    *) echo "Unsupported Operating System: $OS" >&2; exit 1 ;;
+esac
+
+if command -v pip3 >/dev/null 2>&1; then
+    echo "pip3 installed successfully: $(pip3 --version)"
+else
+    echo "pip3 installation failed"
+    exit 1
+fi
+
+echo "=================================================="
+
+case $OS in
+    centos|rhel|rocky|almalinux)
+        if command -v dnf >/dev/null 2>&1; then
+            $SUDO dnf install -y ripgrep fd-find
+        else
+            $SUDO yum install -y ripgrep fd-find
+        fi
+        ;;
+    ubuntu|debian)
+        $SUDO apt-get update
+        $SUDO apt-get install -y ripgrep fd-find
+        ;;
+    *) echo "Unsupported Operating System: $OS" >&2; exit 1 ;;
+esac
