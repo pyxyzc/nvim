@@ -105,8 +105,6 @@ pluginKeys.telescopeList = {
 		-- 预览窗口上下滚动
 		["<C-u>"] = "preview_scrolling_up",
 		["<C-d>"] = "preview_scrolling_down",
-        -- 取消telescope的Ctrl+F
-        ["<C-f>"] = false,
     },
 }
 
