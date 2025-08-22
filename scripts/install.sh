@@ -82,7 +82,7 @@ nvim --version
 # ==================================================
 # 安装nvim
 # ==================================================
-#
+
 mkdir -p ~/.config
 [[ -d ~/.config/nvim ]] && rm -rf ~/.config/nvim
 [[ -d ~/.local/share/nvim ]] && rm -rf ~/.local/share/nvim
@@ -91,6 +91,9 @@ cp -r "$(dirname "$(dirname "$(realpath "$0")")")" ~/.config/nvim
 
 echo "nvim config copied to ~/.config/nvim"
 
+# ==================================================
+# 安装npm和nodejs
+# ==================================================
 
 if ! command -v nvm >/dev/null 2>&1; then
   echo ">>> npm not found ..."
@@ -116,7 +119,9 @@ echo ">>> Installation complete – versions:"
 node --version
 npm  --version
 
-echo "=================================================="
+# ==================================================
+# 安装pip
+# ==================================================
 
 case $OS in
     centos)
@@ -145,6 +150,7 @@ fi
 # ==================================================
 # 安装fd和ripgrep
 # ==================================================
+
 case $OS in
     centos)
         if command -v dnf >/dev/null 2>&1; then
